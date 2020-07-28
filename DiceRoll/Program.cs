@@ -61,7 +61,7 @@ namespace DiceRoll
             string DrawDice2Line1 = "";
             string DrawDice2Line2 = "";
             string DrawDice2Line3 = "";
-
+                
             DrawDice1Line1 = $"roll{dice1}1";
             DrawDice1Line2 = $"roll{dice1}2";
             DrawDice1Line3 = $"roll{dice1}3";
