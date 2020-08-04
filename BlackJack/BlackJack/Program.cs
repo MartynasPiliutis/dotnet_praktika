@@ -20,6 +20,9 @@ namespace BlackJack
             int face;
             char cardColor;
             string cardFace = "";
+            string rep = "";
+            int score = 0;
+            int position = 10;
             int cardValue;
             char hearts = Convert.ToChar(9829);
             char diamonds = Convert.ToChar(9830);
@@ -37,37 +40,149 @@ namespace BlackJack
             Console.WriteLine(clubs);
             Console.WriteLine(spades);
             Console.ReadLine();
-
+            Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
             Console.Write("Press any key to start...");
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ReadKey();
             Console.Clear();
             Console.ReadLine();
 
+            //CARD 1
+            GenerateCard(CardDrop, out color, out face, out cardFace, out cardValue);
+            cardColor = SelectCardColor(color, hearts, diamonds, clubs, spades);
+            position = DrawCard(face, cardColor, cardFace, position);
+            score = ShowScore(score, cardValue);
+
+            //Card 2
+            GenerateCard(CardDrop, out color, out face, out cardFace, out cardValue);
+            cardColor = SelectCardColor(color, hearts, diamonds, clubs, spades);
+            position = DrawCard(face, cardColor, cardFace, position);
+            score = ShowScore(score, cardValue);
+
+            if (score == 21)
+            {
+                Console.WriteLine("BLACKJACK!!!");
+            }
+            else
+            {
+                Console.Write("Hit? y/n");
+                rep = Console.ReadLine();
+            }
+            
+
+            while (rep == "y")
+            {
+                GenerateCard(CardDrop, out color, out face, out cardFace, out cardValue);
+                cardColor = SelectCardColor(color, hearts, diamonds, clubs, spades);
+                position = DrawCard(face, cardColor, cardFace, position);
+                score = ShowScore(score, cardValue);
+                if (score < 21)
+                {
+                    Console.Write("Hit? y/n");
+                    rep = Console.ReadLine();
+                }
+                else if (score == 21)
+                {
+                    Console.WriteLine("You won!");
+                    rep = "n";
+                }
+                else
+                {
+                    Console.WriteLine("You LOST!");
+                    rep = "n";
+                }
+
+            }
+
+            Console.ReadLine();
+
+        }
+
+        private static int ShowScore(int score, int cardValue)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(Console.WindowWidth / 3 * 2, Console.CursorTop);
+            score = score + cardValue;
+            Console.WriteLine(" " + score.ToString("D2") + " ");
+            return score;
+        }
+
+        private static int DrawCard(int face, char cardColor, string cardFace, int position)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+
+            if (face != 10)
+            {
+                Console.SetCursorPosition(position, 10);
+                Console.WriteLine("    ");
+                Console.SetCursorPosition(position, Console.CursorTop);
+                Console.WriteLine(" " + cardColor + cardFace + " ");
+                Console.SetCursorPosition(position, Console.CursorTop);
+                Console.WriteLine("    ");
+                position = position + 5;
+            }
+            else
+            {
+                Console.SetCursorPosition(position, 10);
+                Console.WriteLine("     ");
+                Console.SetCursorPosition(position, Console.CursorTop);
+                Console.WriteLine(" " + cardColor + cardFace + " ");
+                Console.SetCursorPosition(position, Console.CursorTop);
+                Console.WriteLine("     ");
+                position = position + 6;
+            }
+
+            return position;
+        }
+
+        private static char SelectCardColor(int color, char hearts, char diamonds, char clubs, char spades)
+        {
+            char cardColor;
+            if (color == 1)
+            {
+                cardColor = hearts;
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            }
+            else if (color == 2)
+            {
+                cardColor = clubs;
+                Console.ForegroundColor = ConsoleColor.Black;
+
+            }
+            else if (color == 3)
+            {
+                cardColor = diamonds;
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else
+            {
+                cardColor = spades;
+                Console.ForegroundColor = ConsoleColor.Black;
+            }
+
+            return cardColor;
+        }
+
+        private static void GenerateCard(Random CardDrop, out int color, out int face, out string cardFace, out int cardValue)
+        {
             color = CardDrop.Next(1, 5);
             face = CardDrop.Next(1, 14);
 
-            if (color == 1) { cardColor = hearts; }
-            if (color == 2) { cardColor = clubs; }
-            if (color == 3) { cardColor = diamonds; }
-            if (color == 4) { cardColor = spades; }
-
             if (face == 1) { cardFace = "A"; cardValue = 11; }
-            if (face == 2) { cardFace = "2"; cardValue = 2; }
-            if (face == 3) { cardFace = "3"; cardValue = 3; }
-            if (face == 4) { cardFace = "4"; cardValue = 4; }
-            if (face == 5) { cardFace = "5"; cardValue = 5; }
-            if (face == 6) { cardFace = "6"; cardValue = 6; }
-            if (face == 7) { cardFace = "7"; cardValue = 7; }
-            if (face == 8) { cardFace = "8"; cardValue = 8; }
-            if (face == 9) { cardFace = "9"; cardValue = 9; }
-            if (face == 10) { cardFace = "10"; cardValue = 10; }
-            if (face == 11) { cardFace = "J"; cardValue = 10; }
-            if (face == 12) { cardFace = "Q"; cardValue = 10; }
-            if (face == 13) { cardFace = "K"; cardValue = 10; }
-
-            Console.WriteLine($"{cardColor} {cardFace}");
-
+            else if (face == 2) { cardFace = "2"; cardValue = 2; }
+            else if (face == 3) { cardFace = "3"; cardValue = 3; }
+            else if (face == 4) { cardFace = "4"; cardValue = 4; }
+            else if (face == 5) { cardFace = "5"; cardValue = 5; }
+            else if (face == 6) { cardFace = "6"; cardValue = 6; }
+            else if (face == 7) { cardFace = "7"; cardValue = 7; }
+            else if (face == 8) { cardFace = "8"; cardValue = 8; }
+            else if (face == 9) { cardFace = "9"; cardValue = 9; }
+            else if (face == 10) { cardFace = "10"; cardValue = 10; }
+            else if (face == 11) { cardFace = "J"; cardValue = 10; }
+            else if (face == 12) { cardFace = "Q"; cardValue = 10; }
+            else { cardFace = "K"; cardValue = 10; }
         }
     }   
 }
