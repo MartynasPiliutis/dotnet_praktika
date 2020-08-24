@@ -14,8 +14,8 @@ namespace BlackJack
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Random CardDrop = new Random();
-            int dealer;
-            int player;
+            //int dealer;
+            //int player;
             int color;
             int face;
             char cardColor;
